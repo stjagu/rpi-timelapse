@@ -81,7 +81,7 @@ def main():
     last_started = None
 
     network_status = netinfo.network_status()
-    current_config = ui.main(CONFIGS, current_config, network_status)
+    #current_config = ui.main(CONFIGS, current_config, network_status)
 
     try:
         while True:
