@@ -10,7 +10,7 @@ from wrappers import Identify
 from wrappers import NetworkInfo
 
 
-from ui import TimelapseUi
+##from ui import TimelapseUi
 
 MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=30)
 MIN_BRIGHTNESS = 20000
@@ -72,7 +72,7 @@ def main():
     idy = Identify(subprocess)
     netinfo = NetworkInfo(subprocess)
 
-    ui = TimelapseUi()
+    #ui = TimelapseUi()
 
     current_config = 11
     shot = 0
@@ -88,11 +88,11 @@ def main():
             last_started = datetime.now()
             config = CONFIGS[current_config]
             print "Shot: %d Shutter: %s ISO: %d" % (shot, config[0], config[1])
-            ui.backlight_on()
-            ui.show_status(shot, CONFIGS, current_config)
+            #ui.backlight_on()
+            #ui.show_status(shot, CONFIGS, current_config)
             camera.set_shutter_speed(secs=config[0])
             camera.set_iso(iso=str(config[1]))
-            ui.backlight_off()
+            #ui.backlight_off()
             try:
               filename = camera.capture_image_and_download()
             except Exception, e:
@@ -117,7 +117,8 @@ def main():
                     time.sleep((MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started)).seconds)
             shot = shot + 1
     except Exception,e:
-        ui.show_error(str(e))
+        #ui.show_error(str(e))
+        print(str(e))
 
 
 if __name__ == "__main__":
