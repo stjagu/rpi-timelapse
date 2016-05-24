@@ -1,7 +1,7 @@
 rpi-timelapse
 =============
 
-A timelapse camera controller for Raspberry Pi and Canon EOS 350d (should work with any camera supported by `gphoto2` with minor tweaks), with an optional UI and controls on the Adafruit LCD Pi plate.
+A timelapse camera controller for Raspberry Pi and Canon EOS 760D (should work with any camera supported by `gphoto2` with minor tweaks). Now working headlessly, i.e. without a display.
 
 
 Installation
@@ -14,16 +14,14 @@ $ sudo apt-get install gphoto2
 $ sudo apt-get install imagemagick
 ```
 
+Note that if your camera requires a newer `gphoto2` version to work with, you may find `gphoto2-updater.sh` very handful. You can find credits of `gphoto2-updater.sh` inside that file.
+
 Run
 ---
 
+```
 python tl.py
-
-Run on boot
------------
-
-Follow the instructions at <http://learn.adafruit.com/drive-a-16x2-lcd-directly-with-a-raspberry-pi/init-script> using `timelapse` file from this repo instead of `lcd`.
-
+```
 
 Post-Processing
 ===============
