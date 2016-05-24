@@ -9,12 +9,16 @@ from wrappers import GPhoto
 from wrappers import Identify
 from wrappers import NetworkInfo
 
+#####Config here
 
-##from ui import TimelapseUi
-
-MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=30)
-MIN_BRIGHTNESS = 20000
+MIN_INTER_SHOT_DELAY_SECONDS = timedelta(seconds=600)
+MIN_BRIGHTNESS = 10000
 MAX_BRIGHTNESS = 30000
+
+#####Config above
+
+strMIN_BRIGHTNESS = MIN_BRIGHTNESS
+strMAX_BRIGHTNESS = MAX_BRIGHTNESS
 
 CONFIGS = [("1/1600", 200),
            ("1/1000", 200),
@@ -67,20 +71,21 @@ def test_configs():
 def main():
     #print "Testing Configs"
     #test_configs()
-    print "Timelapse"
+    timestr=str(datetime.now())
+    print "No problem. Timelapse starts now, at " + timestr
     camera = GPhoto(subprocess)
     idy = Identify(subprocess)
     netinfo = NetworkInfo(subprocess)
 
     #ui = TimelapseUi()
 
-    current_config = 11
+    current_config = 28
     shot = 0
     prev_acquired = None
     last_acquired = None
     last_started = None
 
-    network_status = netinfo.network_status()
+    #network_status = netinfo.network_status()
     #current_config = ui.main(CONFIGS, current_config, network_status)
 
     try:
@@ -94,7 +99,8 @@ def main():
             camera.set_iso(iso=str(config[1]))
             #ui.backlight_off()
             try:
-              filename = camera.capture_image_and_download()
+              filename = camera.capture_image_and_download(shot)
+              print "Capture signaled."
             except Exception, e:
               print "Error on capture." + str(e)
               print "Retrying..."
@@ -104,12 +110,13 @@ def main():
             brightness = float(idy.mean_brightness(filename))
             last_acquired = datetime.now()
 
-            print "-> %s %s" % (filename, brightness)
+            print "-> %s Brightness: %s" % (filename, brightness)
 
             if brightness < MIN_BRIGHTNESS and current_config < len(CONFIGS) - 1:
                 current_config = current_config + 1
+                print "WARNING: Brightness is below threshold " + strMIN_BRIGHTNESS ", trying a brighter config NOW!"
             elif brightness > MAX_BRIGHTNESS and current_config > 0:
-                current_config = current_config - 1
+                print "WARNING: Brightness is above threshold " + strMAX_BRIGHTNESS ", trying a darker config NOW!"
             else:
                 if last_started and last_acquired and last_acquired - last_started < MIN_INTER_SHOT_DELAY_SECONDS:
                     print "Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started))
