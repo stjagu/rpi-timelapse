@@ -114,9 +114,9 @@ def main():
 
             if brightness < MIN_BRIGHTNESS and current_config < len(CONFIGS) - 1:
                 current_config = current_config + 1
-                print "WARNING: Brightness is below threshold " + strMIN_BRIGHTNESS + ", trying a brighter config NOW!"
+                print "WARNING: Brightness is below threshold " + str(MIN_BRIGHTNESS) + ", trying a brighter config NOW!"
             elif brightness > MAX_BRIGHTNESS and current_config > 0:
-                print "WARNING: Brightness is above threshold " + strMAX_BRIGHTNESS + ", trying a darker config NOW!"
+                print "WARNING: Brightness is above threshold " + str(MAX_BRIGHTNESS) + ", trying a darker config NOW!"
             else:
                 if last_started and last_acquired and last_acquired - last_started < MIN_INTER_SHOT_DELAY_SECONDS:
                     print "Sleeping for %s" % str(MIN_INTER_SHOT_DELAY_SECONDS - (last_acquired - last_started))
